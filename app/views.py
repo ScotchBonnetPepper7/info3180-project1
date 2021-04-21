@@ -4,9 +4,13 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+from flask.helpers import send_from_directory
+from app.forms import PropertyForm
+from app.models import Property
 
 
 ###
@@ -28,6 +32,67 @@ def about():
 ###
 # The functions below should be applicable to all Flask apps.
 ###
+app.route('/property', methods=['POST', 'GET'])
+def property():
+    form = PropertyForm()
+
+    # Validate profile info on submit
+    if request.method == 'POST':
+        if form.validate_on_submit():
+
+            # Save image to upload folder
+            photo = request.files['photo']
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                
+            # Extract data for the profile data
+            property_title = form.property_title.data
+            description = form.description.data
+            bedrooms = form.bedrooms.data
+            bathrooms = form.bathrooms.data
+            price = form.price.data
+            location = form.location.data
+            property_type = form.property_type.data
+
+            # Save data to database
+            property_model = PropertyModel(
+                title = property_title,
+                description = description,
+                bedrooms = bedrooms,
+                bathrooms = bathrooms,
+                price = price,
+                location = location,
+                property_type = property_type,
+                photo = photo)
+
+            db.session.add(property_model)
+            db.session.commit()
+        
+            # Redirect to properties page
+            flash('Property successfully saved')
+            return redirect(url_for('get_properties', properties = properties))
+        flash_errors(form)
+    return render_template('property.html', form = form)
+
+
+
+@app.route('/properties', methods=['POST', 'GET'])
+def properties():
+    properties = Property.query.all()
+    return render_template('properties.html', properties = properties)
+
+@app.route('/property/<propertyid>')
+def propertyid(propertyid):
+    propertyid = Property.query.get(propertyid)
+    return render_template('propertyid.html', propertyid = propertyid)
+
+def get_uploaded_images():
+    rootdir = os.getcwd()
+    list = []
+    for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads/'):
+        for file in files:
+            list.append(file)
+        return list
 
 # Display Flask WTF errors as Flash messages
 def flash_errors(form):

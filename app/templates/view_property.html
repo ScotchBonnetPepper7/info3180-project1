@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+	{% if properties %}
+		<div class="property-container">
+		    <div class="property-description">
+                {% for property in properties %}
+                    {% if property.id == propertyid %}
+            
+                        <div class="image_section">
+                            <img class="top_image" src="{{ url_for('static', filename='uploads/' + property_type.photo) }}" alt="Image">  
+                        </div>
+
+                        <div class="property-body">
+                            <h1 class="property_title"> 
+                            {{ property.title }}
+                            </h1> 
+
+                            <p class="property_description">
+                            {{ property.description }}
+                            </p>    
+                            
+                            <p class="p-text">
+                            <span class="">${{ property.price }}</span>
+                            </p>
+                            
+                            <p class="p-text">
+                            <span class="">{{ property.location }}</span>
+                            </p>
+                        </div>
+
+                        <div class="btn">
+                            <a href=""><input type="button"/>Email Realtor</a>
+                        </div>  
+            </div>
+            { endfid }
+		{% endfor %}
+	{% endif %}
+	    </div>
+{% endblock %}

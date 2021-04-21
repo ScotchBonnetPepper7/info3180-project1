@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<!--container for the page content-->
+<div class="container">
+    <h1 class="property-header">Add New Property</h1>
+    
+    {% include 'flash_messages.html' %}
+
+    <!--form with the required fields for adding a profile-->
+    <div class="form">
+
+        <form id="property" name="" method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <h5 class="title">{{form.title.label}}</h5>
+            {{form.title(class='formControl',class='title')}}
+            <br>
+        
+            <h5 class="description">{{form.descript.label}}</h5>
+            {{form.descript(class='formControl',class='description')}}
+            <br>
+        
+            
+            <h5 class="bedrooms">{{form.bedroom.slabel}}</h5>
+            {{form.room(class='formControl', class='bed',placeholder='3')}}
+            <br>
+            
+            <h5 class="bathrooms">{{form.bathrooms.label}}</h5>
+            {{form.bathroom(class='formControl',class='room',placeholder='3')}}
+            <br>
+
+            <div class="form-group">
+            <h5 class="price">{{form.price.label}}</h5>
+           {{form.price(class='formControl',class='price',placeholder='15,000,000')}}
+            <br>
+    
+            <h5 class="propertyType">{{form.property_type.label}}</h5>
+            {{form.propertyT(class='formControl',class='typee', placeholder='House')}}
+            <br>
+          </div>
+            
+              <h5 class="location">{{form.location.label}}</h5>  
+            {{form.location(class='formControl', class='location', placeholder='e.g. 10 Waterloo Road')}}
+            <br>
+                
+
+            <h5 class="photo">{{form.photo.label}}</h5>
+            {{form.photo}}
+            <br>
+
+            <button name="button" class="btn" type="button">Add Property</button>
+            <br>
+        </form>
+    </div>
+</div>
+{% endblock %}
