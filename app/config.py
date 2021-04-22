@@ -9,7 +9,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Som3$ec5etK*y'
     UPLOAD_FOLDER = os.path.join(EXEC_DIR, 'uploads')
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DATABASE_URL') or 'postgresql://yourusername:yourpassword@localhost/databasename'
+        'DATABASE_URL') or 'postgresql://project1:project1@localhost/project1'
 
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(

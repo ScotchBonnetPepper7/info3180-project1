@@ -12,12 +12,12 @@ class Property(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(80) )
-    descript=db.Column(db.String(80) )
-    room=db.Column(db.String(80) )
-    bathroom=db.Column(db.String(80))
+    description=db.Column(db.String(80) )
+    bedrooms=db.Column(db.String(80) )
+    bathrooms=db.Column(db.String(80))
     price=db.Column(db.String(80))
     location=db.Column(db.String(80))
-    propertyT=db.Column(db.String(80))
+    property_type=db.Column(db.String(80))
     photo=db.Column(db.String(length=2048))# Defining attributes
     
 
